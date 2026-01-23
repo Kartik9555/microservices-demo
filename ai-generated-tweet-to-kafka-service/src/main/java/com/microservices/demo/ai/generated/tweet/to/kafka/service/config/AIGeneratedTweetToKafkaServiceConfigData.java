@@ -14,6 +14,7 @@ public class AIGeneratedTweetToKafkaServiceConfigData {
     private Long schedulerDurationSec;
     private String prompt;
     private String keywordsPlaceholder;
+    private OpenAI openAI;
 
     @Data
     public static class OpenAI {

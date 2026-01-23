@@ -1,0 +1,10 @@
+2026-01-22 21:11:53.093 INFO  [main] c.m.d.a.g.t.t.k.s.AIGeneratedTweetToKafkaServiceApplication - Starting AIGeneratedTweetToKafkaServiceApplication using Java 21.0.4 with PID 3590 (/Users/ananya/Downloads/microservices-demo/ai-generated-tweet-to-kafka-service/target/classes started by ananya in /Users/ananya/Downloads/microservices-demo)
+2026-01-22 21:11:53.094 INFO  [main] c.m.d.a.g.t.t.k.s.AIGeneratedTweetToKafkaServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-01-22 21:11:53.205 INFO  [main] c.m.d.a.g.t.t.k.s.AIGeneratedTweetToKafkaServiceApplication - Started AIGeneratedTweetToKafkaServiceApplication in 0.233 seconds (process running for 0.433)
+2026-01-22 21:11:53.206 INFO  [main] c.m.d.a.g.t.t.k.s.AIGeneratedTweetToKafkaServiceApplication - Application is starting...
+2026-01-22 21:11:53.206 INFO  [main] c.m.d.a.g.t.t.k.s.AIGeneratedTweetToKafkaServiceApplication - Keywords: [Java, Microservices, Spring, Kafka, Elasticsearch]
+2026-01-22 21:45:51.844 INFO  [main] c.m.d.a.g.t.t.k.s.AIGeneratedTweetToKafkaServiceApplication - Starting AIGeneratedTweetToKafkaServiceApplication using Java 21.0.4 with PID 4343 (/Users/ananya/Downloads/microservices-demo/ai-generated-tweet-to-kafka-service/target/classes started by ananya in /Users/ananya/Downloads/microservices-demo)
+2026-01-22 21:45:51.845 INFO  [main] c.m.d.a.g.t.t.k.s.AIGeneratedTweetToKafkaServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-01-22 21:45:51.968 INFO  [main] c.m.d.a.g.t.t.k.s.AIGeneratedTweetToKafkaServiceApplication - Started AIGeneratedTweetToKafkaServiceApplication in 0.255 seconds (process running for 0.459)
+2026-01-22 21:45:51.969 INFO  [main] c.m.d.a.g.t.t.k.s.AIGeneratedTweetToKafkaServiceApplication - Application is starting...
+2026-01-22 21:45:51.969 INFO  [main] c.m.d.a.g.t.t.k.s.AIGeneratedTweetToKafkaServiceApplication - Keywords: [Java, Microservices, Spring, Kafka, Elasticsearch]
