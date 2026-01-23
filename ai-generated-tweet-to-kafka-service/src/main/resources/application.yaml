@@ -1,0 +1,23 @@
+ai-generated-tweet-to-kafka-service:
+  streaming-data-keywords:
+    - Java
+    - Microservices
+    - Spring
+    - Kafka
+    - Elasticsearch
+  scheduler-duration-sec: 30
+  prompt: "Generate a json with 4 elements called createdAt, id, text and user. The user element has also a nested json element called id. For createdA use a date in format 'EEE MMM dd HH:mm:ss zzz yyy', example date would be 'Fri Oct 06 14:32:25 UTC 2026', for id use a Java long value, for text use a String including one or more of the keywords: {keywords}. For id field of the user field use a Java long value. Do not write anything on the response other than the JSON text. That means omit ```json part in the response and any other explanation. Do not include the L letter at the end of the long values. Only give one result in the response."
+  keywords-placeholder: "{keywords}"
+  open-ai:
+    url: "https://api.openai.com/v1/chat/completions"
+    api-key: ${OPENAI_API_KEY}
+    content-type: "application/json"
+    model: "gpt-4o-mini"
+    max-completion-tokens: 150
+    temperature: 1
+    messages:
+      - role: "user"
+        content:
+          -
+            type: "text"
+
