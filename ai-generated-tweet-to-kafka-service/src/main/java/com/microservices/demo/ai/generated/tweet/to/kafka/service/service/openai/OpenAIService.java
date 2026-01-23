@@ -6,12 +6,14 @@ import com.microservices.demo.ai.generated.tweet.to.kafka.service.service.AIServ
 import com.microservices.demo.ai.generated.tweet.to.kafka.service.service.openai.model.OpenAIRequest;
 import com.microservices.demo.ai.generated.tweet.to.kafka.service.service.openai.model.OpenAIResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
@@ -19,8 +21,10 @@ import tools.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
+@ConditionalOnProperty(name = "ai-generated-tweet-to-kafka-service.ai-service", havingValue = "OpenAI")
 public class OpenAIService implements AIService {
 
     private final AIGeneratedTweetToKafkaServiceConfigData configData;
@@ -28,6 +32,7 @@ public class OpenAIService implements AIService {
 
     @Override
     public String generateTweet() throws AIGeneratedTweetToKafkaServiceException {
+        log.info("Generating tweet using OpenAIService");
         var prompt = configData.getPrompt().replace(configData.getKeywordsPlaceholder(), String.join("," , configData.getStreamingDataKeywords()));
         try(CloseableHttpClient httpClient = HttpClients.createDefault()) {
             var request = getRequest(prompt);
