@@ -15,6 +15,7 @@ public class AIGeneratedTweetToKafkaServiceConfigData {
     private String prompt;
     private String keywordsPlaceholder;
     private OpenAI openAI;
+    private GoogleGenAI googleGenAI;
 
     @Data
     public static class OpenAI {
@@ -37,5 +38,15 @@ public class AIGeneratedTweetToKafkaServiceConfigData {
     public static class Content {
         private String type;
         private String text;
+    }
+
+    @Data
+    public static class GoogleGenAI {
+        private String projectId;
+        private String location;
+        private String modelName;
+        private Integer maxOutputTokens;
+        private Float temperature;
+        private Integer candidateCount;
     }
 }

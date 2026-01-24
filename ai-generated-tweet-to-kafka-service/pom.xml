@@ -38,6 +38,10 @@
             <groupId>com.openai</groupId>
             <artifactId>openai-java</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.genai</groupId>
+            <artifactId>google-genai</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
