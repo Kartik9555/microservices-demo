@@ -4,21 +4,21 @@ import com.microservices.demo.ai.generated.tweet.to.kafka.service.config.AIGener
 import com.microservices.demo.ai.generated.tweet.to.kafka.service.exception.AIGeneratedTweetToKafkaServiceException;
 import com.microservices.demo.ai.generated.tweet.to.kafka.service.service.AIService;
 import com.microservices.demo.ai.generated.tweet.to.kafka.service.service.springai.model.TweetResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.converter.BeanOutputConverter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 @ConditionalOnProperty(name = "ai-generated-tweet-to-kafka-service.ai-service", havingValue = "SpringAI-DeepSeek")
 public class SpringAIDeepSeekService implements AIService {
 
@@ -29,6 +29,11 @@ public class SpringAIDeepSeekService implements AIService {
     private Resource tweetPrompt;
 
     public static final String DEEP_SEEK_THINK_REGEX = "(?s)<think>.*?</think>";
+
+    public SpringAIDeepSeekService(@Qualifier("ollamaChatClient") ChatClient chatClient, AIGeneratedTweetToKafkaServiceConfigData configData) {
+        this.chatClient = chatClient;
+        this.configData = configData;
+    }
 
     @Override
     public String generateTweet() throws AIGeneratedTweetToKafkaServiceException {
@@ -46,11 +51,15 @@ public class SpringAIDeepSeekService implements AIService {
                 converter.getFormat()
         ));
 
-        final var modelResult = chatClient.prompt(prompt)
+        final var response = chatClient.prompt(prompt)
                 .call()
-                .content();
+                .chatClientResponse();
 
-        log.info("Model result from deepseek: {}", modelResult);
+        assert response.chatResponse() != null;
+        final var modelResult = Objects.requireNonNull(response.chatResponse().getResult()).getOutput().getText();
+
+        log.info("Model result from deepseek: {} with model: {}", modelResult, response.chatResponse().getMetadata().getModel());
+        assert modelResult != null;
         return modelResult.replaceAll(DEEP_SEEK_THINK_REGEX, "").trim();
     }
 }

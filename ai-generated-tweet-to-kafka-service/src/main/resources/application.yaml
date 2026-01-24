@@ -41,4 +41,11 @@ spring:
           model: "deepseek-chat"
           temperature: 1
           maxTokens: 150
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: deepseek-r1:14b
+          temperature: 1
+          max-new-tokens: 150
 

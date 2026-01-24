@@ -4,11 +4,11 @@ import com.microservices.demo.ai.generated.tweet.to.kafka.service.config.AIGener
 import com.microservices.demo.ai.generated.tweet.to.kafka.service.exception.AIGeneratedTweetToKafkaServiceException;
 import com.microservices.demo.ai.generated.tweet.to.kafka.service.service.AIService;
 import com.microservices.demo.ai.generated.tweet.to.kafka.service.service.springai.model.TweetResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.converter.BeanOutputConverter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.Resource;
@@ -18,7 +18,6 @@ import java.util.Map;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 @ConditionalOnProperty(name = "ai-generated-tweet-to-kafka-service.ai-service", havingValue = "SpringAI-OpenAI")
 public class SpringAIOpenAIService implements AIService {
 
@@ -27,6 +26,11 @@ public class SpringAIOpenAIService implements AIService {
 
     @Value("classpath:/templates/tweet-prompt.st")
     private Resource tweetPrompt;
+
+    public SpringAIOpenAIService(@Qualifier("openAIChatClient") ChatClient chatClient, AIGeneratedTweetToKafkaServiceConfigData configData) {
+        this.chatClient = chatClient;
+        this.configData = configData;
+    }
 
     @Override
     public String generateTweet() throws AIGeneratedTweetToKafkaServiceException {
