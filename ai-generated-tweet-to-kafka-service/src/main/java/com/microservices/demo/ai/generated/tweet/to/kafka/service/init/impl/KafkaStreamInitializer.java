@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 public class KafkaStreamInitializer implements StreamInitializer {
     @Override
     public boolean init() {
-        return true;
+        return false;
     }
 }

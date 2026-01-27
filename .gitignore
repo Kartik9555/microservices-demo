@@ -35,3 +35,7 @@ build/
 /ai-generated-tweet-to-kafka-service/logs/*.log
 /ai-generated-tweet-to-kafka-service/logs/archived/*.log
 /ai-generated-tweet-to-kafka-service/ai-generated-tweet-to-kafka-service/logs/archived/*.log
+/twitter-to-kafka-service/logs/*.log
+/twitter-to-kafka-service/logs/archived/*.log
+/twitter-to-kafka-service/twitter-to-kafka-service/logs/*.log
+/twitter-to-kafka-service/twitter-to-kafka-service/logs/archived/*.log

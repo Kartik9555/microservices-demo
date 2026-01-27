@@ -15,6 +15,7 @@
 	<description>Microservices Demo project for Spring Boot</description>
 	<modules>
 		<module>ai-generated-tweet-to-kafka-service</module>
+		<module>twitter-to-kafka-service</module>
 	</modules>
 	<packaging>pom</packaging>
 	<url/>
@@ -38,6 +39,8 @@
 		<openai-java.version>4.16.1</openai-java.version>
 		<google-genai.version>1.36.0</google-genai.version>
 		<spring-ai.version>2.0.0-M2</spring-ai.version>
+		<twitter4j-stream.version>4.0.7</twitter4j-stream.version>
+		<json.version>20251224</json.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -78,6 +81,16 @@
 				<version>${spring-ai.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.twitter4j</groupId>
+				<artifactId>twitter4j-stream</artifactId>
+				<version>${twitter4j-stream.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.json</groupId>
+				<artifactId>json</artifactId>
+				<version>${json.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
