@@ -40,6 +40,7 @@
 		<openai-java.version>4.16.1</openai-java.version>
 		<google-genai.version>1.36.0</google-genai.version>
 		<spring-ai.version>2.0.0-M2</spring-ai.version>
+		<avro.version>1.12.1</avro.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -85,6 +86,11 @@
 				<version>${spring-ai.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.avro</groupId>
+				<artifactId>avro</artifactId>
+				<version>${avro.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -35,3 +35,4 @@ build/
 /ai-generated-tweet-to-kafka-service/logs/archived/*.log
 /ai-generated-tweet-to-kafka-service/ai-generated-tweet-to-kafka-service/logs/*.log
 /ai-generated-tweet-to-kafka-service/ai-generated-tweet-to-kafka-service/logs/archived/*.log
+/kafka/kafka-model/src/main/java/com/microservices/demo/kafka/avro/model/*.java
