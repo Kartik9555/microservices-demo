@@ -1,6 +1,6 @@
 package com.microservices.demo.ai.generated.tweet.to.kafka.service;
 
-import com.microservices.demo.ai.generated.tweet.to.kafka.service.config.AIGeneratedTweetToKafkaServiceConfigData;
+import com.microservices.demo.config.AIGeneratedTweetToKafkaServiceConfigData;
 import com.microservices.demo.ai.generated.tweet.to.kafka.service.init.StreamInitializer;
 import com.microservices.demo.ai.generated.tweet.to.kafka.service.runner.AIStreamRunner;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +9,7 @@ import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.TaskScheduler;
 
 import java.time.Duration;
@@ -17,6 +18,7 @@ import java.time.temporal.ChronoUnit;
 @Slf4j
 @SpringBootApplication
 @RequiredArgsConstructor
+@ComponentScan(basePackages = "com.microservices.demo")
 public class AIGeneratedTweetToKafkaServiceApplication implements CommandLineRunner {
 
     private final AIGeneratedTweetToKafkaServiceConfigData configData;

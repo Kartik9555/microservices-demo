@@ -15,7 +15,8 @@
 	<description>Microservices Demo project for Spring Boot</description>
 	<modules>
 		<module>ai-generated-tweet-to-kafka-service</module>
-	</modules>
+        <module>app-config-data</module>
+    </modules>
 	<packaging>pom</packaging>
 	<url/>
 	<licenses>
@@ -41,6 +42,11 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>com.microservices.demo</groupId>
+				<artifactId>app-config-data</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
