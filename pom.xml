@@ -17,6 +17,7 @@
 		<module>ai-generated-tweet-to-kafka-service</module>
         <module>app-config-data</module>
 		<module>kafka</module>
+		<module>common-config</module>
 	</modules>
 	<packaging>pom</packaging>
 	<url/>
@@ -41,6 +42,9 @@
 		<google-genai.version>1.36.0</google-genai.version>
 		<spring-ai.version>2.0.0-M2</spring-ai.version>
 		<avro.version>1.12.1</avro.version>
+		<spring-kafka.version>3.2.2</spring-kafka.version>
+		<spring-retry.version>2.0.12</spring-retry.version>
+		<spring-boot-starter-aop.version></spring-boot-starter-aop.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -86,6 +90,16 @@
 				<version>${spring-ai.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.kafka</groupId>
+				<artifactId>spring-kafka</artifactId>
+				<version>${spring-kafka.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.retry</groupId>
+				<artifactId>spring-retry</artifactId>
+				<version>${spring-retry.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.avro</groupId>

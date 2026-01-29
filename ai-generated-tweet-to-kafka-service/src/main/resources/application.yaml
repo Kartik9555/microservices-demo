@@ -28,6 +28,7 @@ ai-generated-tweet-to-kafka-service:
     max-output-tokens: 150
     temperature: 1
     candidate-count: 1
+
 spring:
   ai:
     openai:
@@ -48,4 +49,21 @@ spring:
           model: deepseek-r1:14b
           temperature: 1
           max-new-tokens: 150
+
+retry-config:
+  initial-interval-ms: 1000
+  max-interval: 10000
+  multiplier: 2.0
+  maxAttempts: 3
+  sleep-time-ms: 2000
+
+kafka-config:
+  bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
+  schema-registry-url-key: schema.registry.url
+  schema-registry-url: http://localhost:8081
+  topic-name: twitter-topic
+  topic-names-to-create:
+    - twitter-name
+  num-of-partitions: 3
+  replication-factor: 3
 
