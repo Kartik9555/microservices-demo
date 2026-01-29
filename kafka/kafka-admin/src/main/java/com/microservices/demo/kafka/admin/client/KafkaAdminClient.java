@@ -125,9 +125,7 @@ public class KafkaAdminClient {
         log.info("Reading kafka topic {}, attempt {}", kafkaConfigData.getTopicNamesToCreate().toArray(), retryContext.getRetryCount());
         final var topics = adminClient.listTopics().listings().get();
         if (topics != null) {
-            topics.forEach(topic -> {
-                log.debug("Topic with name {}", topic);
-            });
+            topics.forEach(topic -> log.debug("Topic with name {}", topic));
         }
         return topics;
     }
