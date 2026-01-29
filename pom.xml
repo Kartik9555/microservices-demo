@@ -36,7 +36,6 @@
 	<properties>
 		<java.version>25</java.version>
 		<maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
-		<lombok.version>1.18.42</lombok.version>
 		<httpclient5.version>5.5.1</httpclient5.version>
 		<openai-java.version>4.16.1</openai-java.version>
 		<google-genai.version>1.36.0</google-genai.version>
@@ -51,12 +50,6 @@
 				<groupId>com.microservices.demo</groupId>
 				<artifactId>app-config-data</artifactId>
 				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok</artifactId>
-				<version>${lombok.version}</version>
-				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents.client5</groupId>
@@ -101,12 +94,24 @@
 				<version>${spring-retry.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.springframework.retry</groupId>
+				<artifactId>spring-boot-starter-webflux</artifactId>
+			</dependency>
+			<dependency>
 				<groupId>org.apache.avro</groupId>
 				<artifactId>avro</artifactId>
 				<version>${avro.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
