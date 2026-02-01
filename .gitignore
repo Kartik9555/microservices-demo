@@ -36,3 +36,5 @@ build/
 /ai-generated-tweet-to-kafka-service/ai-generated-tweet-to-kafka-service/logs/*.log
 /ai-generated-tweet-to-kafka-service/ai-generated-tweet-to-kafka-service/logs/archived/*.log
 /kafka/kafka-model/src/main/java/com/microservices/demo/kafka/avro/model/*.java
+/docker-compose/docker-logs/*.log
+/docker-compose/docker-logs/archived/ai-generated-tweet-to-kafka-service-log.*.log
