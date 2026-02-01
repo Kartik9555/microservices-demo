@@ -6,8 +6,10 @@ import com.microservices.demo.ai.generated.tweet.to.kafka.service.runner.AIStrea
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
+import org.springframework.ai.retry.autoconfigure.SpringAiRetryAutoConfiguration;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.TaskScheduler;
@@ -19,6 +21,7 @@ import java.time.temporal.ChronoUnit;
 @SpringBootApplication
 @RequiredArgsConstructor
 @ComponentScan(basePackages = "com.microservices.demo")
+@EnableAutoConfiguration(exclude = SpringAiRetryAutoConfiguration.class) // Excluded as bean is programmatically created
 public class AIGeneratedTweetToKafkaServiceApplication implements CommandLineRunner {
 
     private final AIGeneratedTweetToKafkaServiceConfigData configData;

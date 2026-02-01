@@ -29,7 +29,7 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
         props.put(BOOTSTRAP_SERVERS_CONFIG, kafkaConfigData.getBootstrapServers());
         props.put(kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
         props.put(KEY_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getKafkaSerializerClass());
-        props.put(VALUE_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getKafkaSerializerClass());
+        props.put(VALUE_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getValueSerializerClass());
         props.put(BATCH_SIZE_CONFIG, kafkaProducerConfigData.getBatchSize());
         props.put(LINGER_MS_CONFIG, kafkaProducerConfigData.getLingerMs());
         props.put(COMPRESSION_TYPE_CONFIG, kafkaProducerConfigData.getCompressionType());
