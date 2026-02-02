@@ -5,3 +5,15 @@ logging:
   level:
     ROOT: info
     org.springframework.cloud.config: DEBUG
+
+spring:
+  application:
+    name: configserver
+  config:
+    import: 'optional:configserver:'
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Kartik9555/microservices-demo-cloud-config.git
+          clone-on-start: true

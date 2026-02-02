@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: ai-generated-tweet-to-kafka-service
+  profiles:
+    active: tweet_to_kafka
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    config:
+      name: ai-generated-tweet-to-kafka-service,config-client
