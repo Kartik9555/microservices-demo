@@ -39,3 +39,4 @@ build/
 /docker-compose/docker-logs/*.log
 /docker-compose/docker-logs/archived/ai-generated-tweet-to-kafka-service-log.*.log
 /config-server/logs/*.log
+/config-server/logs/archived/*.log
