@@ -16,10 +16,10 @@ spring:
       server:
         git:
           uri: https://github.com/Kartik9555/microservices-demo-cloud-config
-          username: '$2a$10$rkqOnsGnYRWO5CnfoumSaeY1MptdS0pd4CLM/cpp5xdldYCfAgH1q'
+          username: 'a58d53b1f923ef873d68f5f040525578df6050b329a578e51b723d1e2d7a239e46d02559915773833e2b2ea8241a3423'
           password: ${GITHUB_PAT_TOKEN}
           clone-on-start: true
   security:
     user:
-      name: '$2a$10$9R1If/2mwiLefLKX5a7r.OcWSrbqmpRhWlltc/4wqE6UmYC8SE99C'
-      password: '$2a$10$Y.oeYygYy1FX9xd..A0z2.wG.WCH/zaLtz0Xru6iAKSO35N7Hzgva'
+      name: '794cfeb890394d2bc8a53d547fafaa50860c96d9c9694d098b42dc76af9675a4e5c783a2fd6028244694a6b6e5171e8c'
+      password: '1bf123fd7ea68795a2ec9f9a648af05a6200bade8066c8cd5b067046ed066a9374081fda27cf5f9a34dbe8bf35d1fe4e'
