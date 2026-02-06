@@ -3,6 +3,7 @@ package com.microservices.demo.kafka.consumer.config;
 import com.microservices.demo.config.KafkaConfigData;
 import com.microservices.demo.config.KafkaConsumerConfigData;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,7 @@ import static org.apache.kafka.clients.consumer.ConsumerConfig.MAX_POLL_RECORDS_
 import static org.apache.kafka.clients.consumer.ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG;
 
+@Slf4j
 @EnableKafka
 @Configuration
 @RequiredArgsConstructor
@@ -38,6 +40,7 @@ public class KafkaConsumerConfig<K extends Serializable, V extends SpecificRecor
 
     @Bean
     public Map<String, Object> consumerConfigs() {
+        log.info("Creating Kafka Consumer Configs");
         final var consumerConfigs = new HashMap<String, Object>();
         consumerConfigs.put(BOOTSTRAP_SERVERS_CONFIG, kafkaConfigData.getBootstrapServers());
         consumerConfigs.put(KEY_DESERIALIZER_CLASS_CONFIG, kafkaConsumerConfigData.getKeyDeserializer());

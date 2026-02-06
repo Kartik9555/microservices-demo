@@ -40,3 +40,7 @@ build/
 /docker-compose/docker-logs/archived/ai-generated-tweet-to-kafka-service-log.*.log
 /config-server/logs/*.log
 /config-server/logs/archived/*.log
+/kafka-to-elastic-service/logs/*.log
+/kafka-to-elastic-service/logs/archived/*.log
+/kafka-to-elastic-service/kafka-to-elastic-service/logs/*.log
+/kafka-to-elastic-service/kafka-to-elastic-service/logs/archived/*.log
