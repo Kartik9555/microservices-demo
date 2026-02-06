@@ -8,3 +8,5 @@ spring:
   cloud:
     config:
       name: ai-generated-tweet-to-kafka-service,config-client
+      username: '$2a$10$9R1If/2mwiLefLKX5a7r.OcWSrbqmpRhWlltc/4wqE6UmYC8SE99C'
+      password: '$2a$10$Y.oeYygYy1FX9xd..A0z2.wG.WCH/zaLtz0Xru6iAKSO35N7Hzgva'
