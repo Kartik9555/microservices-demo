@@ -9,12 +9,16 @@ import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Objects;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableElasticsearchRepositories(basePackages = "com.microservices.demo.elastic.index.client.repository")
 public class ElasticsearchConfig {
 
     private final ElasticConfigData elasticConfigData;
@@ -47,5 +51,10 @@ public class ElasticsearchConfig {
         ).build();
         final var restClientTransport =  new RestClientTransport(restclient, new JacksonJsonpMapper());
         return new ElasticsearchClient(restClientTransport);
+    }
+
+    @Bean
+    public ElasticsearchOperations elasticsearchTemplate() {
+        return new ElasticsearchTemplate(elasticsearchClient());
     }
 }
