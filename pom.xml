@@ -35,7 +35,6 @@
 	<properties>
 		<java.version>25</java.version>
 		<maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
-		<httpclient5.version>5.4</httpclient5.version>
 		<openai-java.version>4.16.1</openai-java.version>
 		<google-genai.version>1.36.0</google-genai.version>
 		<spring-ai.version>2.0.0-M2</spring-ai.version>
@@ -45,7 +44,6 @@
 		<spring-cloud-dependencies.version>2025.1.1</spring-cloud-dependencies.version>
 		<kafka-avro-serializer.version>8.1.1</kafka-avro-serializer.version>
 		<elasticsearch.version>9.2.5</elasticsearch.version>
-		<elasticsearch-rest-high-level-client.version>7.17.29</elasticsearch-rest-high-level-client.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -95,16 +93,6 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.httpcomponents.client5</groupId>
-				<artifactId>httpclient5</artifactId>
-				<version>${httpclient5.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents.core5</groupId>
-				<artifactId>httpcore5</artifactId>
-				<version>${httpclient5.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>com.openai</groupId>
 				<artifactId>openai-java</artifactId>
 				<version>${openai-java.version}</version>
@@ -117,6 +105,10 @@
 					<exclusion>
 						<groupId>org.apache.httpcomponents</groupId>
 						<artifactId>httpclient</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.httpcomponents</groupId>
+						<artifactId>httpcore</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -146,10 +138,6 @@
 				<groupId>org.springframework.retry</groupId>
 				<artifactId>spring-retry</artifactId>
 				<version>${spring-retry.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.retry</groupId>
-				<artifactId>spring-boot-starter-webflux</artifactId>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
@@ -190,11 +178,6 @@
 				<groupId>org.elasticsearch</groupId>
 				<artifactId>elasticsearch</artifactId>
 				<version>${elasticsearch.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.elasticsearch.client</groupId>
-				<artifactId>elasticsearch-rest-high-level-client</artifactId>
-				<version>${elasticsearch-rest-high-level-client.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

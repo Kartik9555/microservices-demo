@@ -5,7 +5,7 @@ import com.microservices.demo.kafka.avro.model.TwitterAvroModel;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +19,7 @@ public class AvroToElasticModelTransformer {
                         .id(String.valueOf(twitterAvroModel.getId()))
                         .userId(twitterAvroModel.getUserId())
                         .text(twitterAvroModel.getText())
-                        .createdAt(LocalDateTime.ofInstant(Instant.ofEpochMilli(twitterAvroModel.getCreatedAt()), ZoneId.systemDefault()))
+                        .createdAt(ZonedDateTime.ofInstant(Instant.ofEpochMilli(twitterAvroModel.getCreatedAt()), ZoneId.systemDefault()))
                         .build()
                 )
                 .collect(Collectors.toList());
