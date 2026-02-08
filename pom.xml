@@ -22,7 +22,8 @@
 		<module>kafka-to-elastic-service</module>
 		<module>elastic</module>
         <module>common-util</module>
-    </modules>
+		<module>elastic-query-service</module>
+	</modules>
 	<packaging>pom</packaging>
 
 	<repositories>
@@ -96,6 +97,11 @@
 			<dependency>
 				<groupId>com.microservices.demo</groupId>
 				<artifactId>common-util</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.microservices.demo</groupId>
+				<artifactId>elastic-query-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
