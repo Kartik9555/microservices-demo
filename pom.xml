@@ -21,7 +21,8 @@
 		<module>config-server</module>
 		<module>kafka-to-elastic-service</module>
 		<module>elastic</module>
-	</modules>
+        <module>common-util</module>
+    </modules>
 	<packaging>pom</packaging>
 
 	<repositories>
@@ -90,6 +91,11 @@
 			<dependency>
 				<groupId>com.microservices.demo</groupId>
 				<artifactId>elastic-index-client</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.microservices.demo</groupId>
+				<artifactId>common-util</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
