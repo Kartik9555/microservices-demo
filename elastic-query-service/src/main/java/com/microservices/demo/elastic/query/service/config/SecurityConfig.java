@@ -29,11 +29,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequests -> {
-                            authorizeRequests.requestMatchers(securityConfigData.getPathsToIgnore().stream().map(PathPatternRequestMatcher::pathPattern).toList().toArray(new RequestMatcher[]{}))
-                            .permitAll()
-                                    .anyRequest().hasRole("USER");
-                        }
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(securityConfigData.getPathsToIgnore().stream().map(PathPatternRequestMatcher::pathPattern).toList().toArray(new RequestMatcher[]{}))
+                .permitAll()
+                        .anyRequest().hasRole("USER")
                 ).httpBasic(Customizer.withDefaults());
         return http.build();
     }
