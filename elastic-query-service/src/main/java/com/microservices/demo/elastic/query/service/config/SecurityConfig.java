@@ -1,5 +1,6 @@
 package com.microservices.demo.elastic.query.service.config;
 
+import com.microservices.demo.config.SecurityConfigData;
 import com.microservices.demo.config.UserConfigData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -21,12 +24,16 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final UserConfigData userConfigData;
+    private final SecurityConfigData securityConfigData;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests.requestMatchers("/**").hasRole("USER")
+                .authorizeHttpRequests(authorizeRequests -> {
+                            authorizeRequests.requestMatchers(securityConfigData.getPathsToIgnore().stream().map(PathPatternRequestMatcher::pathPattern).toList().toArray(new RequestMatcher[]{}))
+                            .permitAll()
+                                    .anyRequest().hasRole("USER");
+                        }
                 ).httpBasic(Customizer.withDefaults());
         return http.build();
     }

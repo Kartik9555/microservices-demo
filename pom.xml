@@ -46,6 +46,7 @@
 		<spring-cloud-dependencies.version>2025.1.1</spring-cloud-dependencies.version>
 		<kafka-avro-serializer.version>8.1.1</kafka-avro-serializer.version>
 		<elasticsearch.version>9.2.5</elasticsearch.version>
+		<springdoc-openapi.version>3.0.1</springdoc-openapi.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -190,6 +191,11 @@
 				<groupId>org.elasticsearch</groupId>
 				<artifactId>elasticsearch</artifactId>
 				<version>${elasticsearch.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>${springdoc-openapi.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

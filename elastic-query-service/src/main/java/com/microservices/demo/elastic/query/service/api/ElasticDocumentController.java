@@ -4,6 +4,11 @@ import com.microservices.demo.elastic.query.service.business.ElasticQueryService
 import com.microservices.demo.elastic.query.service.model.ElasticQueryServiceRequestModel;
 import com.microservices.demo.elastic.query.service.model.ElasticQueryServiceResponseModel;
 import com.microservices.demo.elastic.query.service.model.ElasticQueryServiceResponseModelV2;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +26,31 @@ public class ElasticDocumentController {
 
     private final ElasticQueryService elasticQueryService;
 
-    @GetMapping("/")
+    @Operation(summary = "Get all elastic documents")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success response", content = {
+                    @Content(mediaType = "application/vnd.api.v1+json",
+                    schema = @Schema(implementation = ElasticQueryServiceResponseModel.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @GetMapping
     public ResponseEntity<List<ElasticQueryServiceResponseModel>> getAllDocuments() {
         List<ElasticQueryServiceResponseModel> response = elasticQueryService.getAllDocuments();
         log.info("Elasticsearch returned {} of documents", response.size());
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get elastic document by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success response", content = {
+                    @Content(mediaType = "application/vnd.api.v1+json",
+                            schema = @Schema(implementation = ElasticQueryServiceResponseModel.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<ElasticQueryServiceResponseModel> getDocumentById(@PathVariable @NotEmpty String id) {
         ElasticQueryServiceResponseModel response = elasticQueryService.getDocumentById(id);
@@ -35,6 +58,15 @@ public class ElasticDocumentController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get elastic document by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success response", content = {
+                    @Content(mediaType = "application/vnd.api.v2+json",
+                            schema = @Schema(implementation = ElasticQueryServiceResponseModelV2.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping(value = "/{id}", produces = "application/vnd.api.v2+json")
     public ResponseEntity<ElasticQueryServiceResponseModelV2> getDocumentByIdV2(@PathVariable @NotEmpty String id) {
         ElasticQueryServiceResponseModel response = elasticQueryService.getDocumentById(id);
@@ -43,6 +75,15 @@ public class ElasticDocumentController {
         return ResponseEntity.ok(responseModelV2);
     }
 
+    @Operation(summary = "Get elastic documents by text")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success response", content = {
+                    @Content(mediaType = "application/vnd.api.v1+json",
+                            schema = @Schema(implementation = ElasticQueryServiceResponseModel.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("/get-document-by-text")
     public ResponseEntity<List<ElasticQueryServiceResponseModel>> getDocumentsByText(@RequestBody @Valid ElasticQueryServiceRequestModel request) {
         List<ElasticQueryServiceResponseModel> response = elasticQueryService.getDocumentByText(request.getText());
