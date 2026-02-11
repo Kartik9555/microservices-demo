@@ -23,7 +23,8 @@
 		<module>elastic</module>
         <module>common-util</module>
 		<module>elastic-query-service</module>
-	</modules>
+        <module>elastic-query-web-client</module>
+    </modules>
 	<packaging>pom</packaging>
 
 	<repositories>
