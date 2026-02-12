@@ -21,6 +21,7 @@ public class ElasticQueryServiceInstanceListSupplierConfig implements ServiceIns
         this.webClient = webClient.getWebClient()   ;
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public String getServiceId() {
         return webClient.getServiceId();
