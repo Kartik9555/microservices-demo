@@ -1,17 +1,19 @@
-package com.microservices.demo.elastic.query.web.client.model;
+package com.microservices.demo.elastic.query.web.client.common.model;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.ZonedDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ElasticQueryWebClientRequestModel {
+public class ElasticQueryWebClientResponseModel {
     private String id;
-    @NotEmpty
+    private Long userId;
     private String text;
+    private ZonedDateTime createdAt;
 }

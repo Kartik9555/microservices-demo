@@ -1,10 +1,6 @@
-package com.microservices.demo.elastic.query.service.model;
+package com.microservices.demo.elastic.query.service.common.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.time.ZonedDateTime;

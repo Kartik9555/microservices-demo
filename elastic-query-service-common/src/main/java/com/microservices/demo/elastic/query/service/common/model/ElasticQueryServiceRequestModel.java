@@ -1,4 +1,4 @@
-package com.microservices.demo.elastic.query.service.model;
+package com.microservices.demo.elastic.query.service.common.model;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
