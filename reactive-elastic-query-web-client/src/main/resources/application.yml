@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: reactive-elastic-query-web-client
+  profiles:
+    active: reactive_elastic_query_web
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    config:
+      name: reactive-elastic-query-web-client,config-client
+      username: '794cfeb890394d2bc8a53d547fafaa50860c96d9c9694d098b42dc76af9675a4e5c783a2fd6028244694a6b6e5171e8c'
+      password: '01ab15f0c2b622cf0d4b1ca52b7afda1ce5e82f8765514955e3b0268c21871923287e5fae1fe529b707fef81540d21bc'
