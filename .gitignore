@@ -38,3 +38,5 @@ build/
 /*/logs/archived/*.log
 /*/*/logs/*.log
 /*/*/logs/archived/*.log
+/docker-compose/volumes/
+/docker-compose/postgres_data/
