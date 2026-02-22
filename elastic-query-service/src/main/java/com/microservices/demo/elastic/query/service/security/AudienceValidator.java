@@ -1,7 +1,6 @@
 package com.microservices.demo.elastic.query.service.security;
 
 import com.microservices.demo.config.ElasticQueryServiceConfigData;
-import com.microservices.demo.elastic.query.service.business.ElasticQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.oauth2.core.OAuth2Error;
@@ -19,7 +18,7 @@ public class AudienceValidator implements OAuth2TokenValidator<Jwt> {
 
     @Override
     public OAuth2TokenValidatorResult validate(Jwt jwt) {
-        if (jwt.getAudience().contains(elasticQueryServiceConfigData.getVersion())) {
+        if (jwt.getAudience().contains(elasticQueryServiceConfigData.getCustomAudience())) {
             return OAuth2TokenValidatorResult.success();
         } else {
             final var audienceError = new OAuth2Error("invalid_token", "The required audience" + elasticQueryServiceConfigData.getCustomAudience() +" is missing", null);

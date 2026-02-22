@@ -20,7 +20,7 @@ public class TwitterQueryUserJwtConverter implements Converter<Jwt, AbstractAuth
     private static final String REALM_ACCESS_CLAIM = "realm_access";
     private static final String ROLES_CLAIM = "roles";
     private static final String SCOPE_CLAIM = "scope";
-    private static final String USERNAME_CLAIM = "username";
+    private static final String USERNAME_CLAIM = "preferred_username";
     private static final String DEFAULT_ROLE_PREFIX = "ROLE_";
     private static final String DEFAULT_SCOPE_PREFIX = "SCOPE_";
     private static final String SCOPE_SEPARATOR = " ";
@@ -49,21 +49,22 @@ public class TwitterQueryUserJwtConverter implements Converter<Jwt, AbstractAuth
         return authorities;
     }
 
+    @SuppressWarnings("unchecked")
     private Collection<String> getRoles(Jwt jwt) {
-        final var roles = jwt.getClaims().get(ROLES_CLAIM);
+        Object roles = ((Map<String, Object>) jwt.getClaims().get(REALM_ACCESS_CLAIM)).get(ROLES_CLAIM);
         if (roles instanceof Collection) {
             return ((Collection<String>) roles).stream()
-                    .map(role -> DEFAULT_ROLE_PREFIX + role.toUpperCase())
+                    .map(authority -> DEFAULT_ROLE_PREFIX + authority.toUpperCase())
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();
     }
 
     private Collection<String> getScopes(Jwt jwt) {
-        final var scopes = jwt.getClaims().get(SCOPE_CLAIM);
+        Object scopes = jwt.getClaims().get(SCOPE_CLAIM);
         if (scopes instanceof String) {
-            return Arrays.stream(((String)scopes).split(SCOPE_SEPARATOR))
-                    .map(scope -> DEFAULT_SCOPE_PREFIX + scope.toUpperCase())
+            return Arrays.stream(((String) scopes).split(SCOPE_SEPARATOR))
+                    .map(authority -> DEFAULT_SCOPE_PREFIX + authority.toUpperCase())
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();
