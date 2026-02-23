@@ -1,6 +1,7 @@
 package com.microservices.demo.elastic.query.service.config;
 
 import com.microservices.demo.config.SecurityConfigData;
+import com.microservices.demo.elastic.query.service.security.QueryServicePermissionEvaluator;
 import com.microservices.demo.elastic.query.service.security.TwitterQueryUserDetailsService;
 import com.microservices.demo.elastic.query.service.security.TwitterQueryUserJwtConverter;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.boot.security.oauth2.server.resource.autoconfigure.OA
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -35,6 +38,14 @@ public class SecurityConfig {
     private final TwitterQueryUserDetailsService twitterQueryUserDetailsService;
     private final OAuth2ResourceServerProperties oAuth2ResourceServerProperties;
     private final SecurityConfigData securityConfigData;
+    private final QueryServicePermissionEvaluator queryServicePermissionEvaluator;
+
+    @Bean
+    public MethodSecurityExpressionHandler expressionHandler() {
+        final var expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setPermissionEvaluator(queryServicePermissionEvaluator);
+        return expressionHandler;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
