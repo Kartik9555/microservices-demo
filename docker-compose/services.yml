@@ -73,6 +73,7 @@ services:
     volumes:
       - "./docker-logs:/workspace/elastic-query-service/logs"
       - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+      - "./check-keycloak-server-started.sh:/usr/local/bin/check-keycloak-server-started.sh"
     user: root
     entrypoint: [ "check-config-server-started.sh" ]
     depends_on:
@@ -90,6 +91,10 @@ services:
       - "ELASTIC_CONFIG_CONNECTION-URL=http://elastic-1:9200"
       - "SERVER_PORT=8183"
       - "SERVER_SERVLET_CONTEXT-PATH=/elastic-query-service"
+      - "SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI=http://keycloak-authorization-server:9091/realms/microservices-realm"
+      - "SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI=http://keycloak-authorization-server:9091/realms/microservices-realm/protocol/openid-connect/certs"
+      - "SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI=http://keycloak-authorization-server:9091/realms/microservices-realm/protocol/openid-connect/token"
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/postgres?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true"
     networks:
       - ${GLOBAL_NETWORK:-services}
   elastic-query-service-2:
@@ -100,6 +105,7 @@ services:
     volumes:
       - "./docker-logs:/workspace/elastic-query-service/logs"
       - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+      - "./check-keycloak-server-started.sh:/usr/local/bin/check-keycloak-server-started.sh"
     user: root
     entrypoint: [ "check-config-server-started.sh" ]
     depends_on:
@@ -117,6 +123,11 @@ services:
       - "ELASTIC_CONFIG_CONNECTION-URL=http://elastic-1:9200"
       - "SERVER_PORT=8185"
       - "SERVER_SERVLET_CONTEXT-PATH=/elastic-query-service"
+      - "SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI=http://keycloak-authorization-server:9091/realms/microservices-realm"
+      - "SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI=http://keycloak-authorization-server:9091/realms/microservices-realm/protocol/openid-connect/certs"
+      - "SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI=http://keycloak-authorization-server:9091/realms/microservices-realm/protocol/openid-connect/token"
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/postgres?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true"
+      - "SPRING_DATASOURCE_INITIALIZATION-MODE=never"
     networks:
       - ${GLOBAL_NETWORK:-services}
   elastic-query-web-client:
@@ -127,6 +138,7 @@ services:
     volumes:
       - "./docker-logs:/workspace/elastic-query-web-client/logs"
       - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+      - "./check-keycloak-server-started.sh:/usr/local/bin/check-keycloak-server-started.sh"
     user: root
     entrypoint: [ "check-config-server-started.sh" ]
     depends_on:
@@ -137,7 +149,7 @@ services:
       - "LOGGING_LEVEL_ROOT=info"
       - "SERVER_PORT=8184"
       - "SERVER_SERVLET_CONTEXT-PATH=/elastic-query-web-client"
-      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888"
+      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888,http://config-server-ha:8889"
       - "ELASTIC_QUERY_WEB_CLIENT_WEB-CLIENT_BASE-URL=http://elastic-query-service/elastic-query-service/documents"
       - "ELASTIC_QUERY_WEB_CLIENT_WEB-CLIENT_INSTANCES_0_ID=elastic-query-service-1"
       - "ELASTIC_QUERY_WEB_CLIENT_WEB-CLIENT_INSTANCES_0_HOST=elastic-query-service-1"
@@ -145,5 +157,8 @@ services:
       - "ELASTIC_QUERY_WEB_CLIENT_WEB-CLIENT_INSTANCES_1_ID=elastic-query-service-2"
       - "ELASTIC_QUERY_WEB_CLIENT_WEB-CLIENT_INSTANCES_1_HOST=elastic-query-service-2"
       - "ELASTIC_QUERY_WEB_CLIENT_WEB-CLIENT_INSTANCES_1_PORT=8185"
+      - "SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER-URI=http://keycloak-authorization-server:9091/realms/microservices-realm"
+      - "SECURITY_LOGOUT-SUCCESS-URL=http://elastic-query-web-client:8184/elastic-query-web-client"
+      - "SECURITY_DEFAULT-CLIENT-REGISTRATION-ID=keycloak"
     networks:
       - ${GLOBAL_NETWORK:-services}
