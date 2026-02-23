@@ -28,7 +28,8 @@
 		<module>elastic-query-web-client-common</module>
 		<module>reactive-elastic-query-service</module>
 		<module>reactive-elastic-query-web-client</module>
-	</modules>
+        <module>kafka-streams-service</module>
+    </modules>
 	<packaging>pom</packaging>
 
 	<repositories>
@@ -201,6 +202,11 @@
 						<artifactId>swagger-core</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>io.confluent</groupId>
+				<artifactId>kafka-streams-avro-serde</artifactId>
+				<version>${kafka-avro-serializer.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.elasticsearch</groupId>
