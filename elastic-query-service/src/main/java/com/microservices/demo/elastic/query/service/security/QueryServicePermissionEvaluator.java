@@ -2,6 +2,7 @@ package com.microservices.demo.elastic.query.service.security;
 
 import com.microservices.demo.elastic.query.service.common.model.ElasticQueryServiceRequestModel;
 import com.microservices.demo.elastic.query.service.common.model.ElasticQueryServiceResponseModel;
+import com.microservices.demo.elastic.query.service.model.ElasticQueryServiceAnalyticsResponseModel;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -33,9 +34,9 @@ public class QueryServicePermissionEvaluator implements PermissionEvaluator {
             if (targetDomainObject == null) {
                 return true;
             }
-            List<ElasticQueryServiceResponseModel> response = ((ResponseEntity<List<ElasticQueryServiceResponseModel>>) targetDomainObject).getBody();
+            ElasticQueryServiceAnalyticsResponseModel response = ((ResponseEntity<ElasticQueryServiceAnalyticsResponseModel>) targetDomainObject).getBody();
             Objects.requireNonNull(response);
-            return postAuthorize(authentication, response, permission);
+            return postAuthorize(authentication, response.getQueryResponseModels(), permission);
         }
         return false;
     }
