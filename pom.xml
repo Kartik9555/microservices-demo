@@ -29,7 +29,8 @@
 		<module>reactive-elastic-query-service</module>
 		<module>reactive-elastic-query-web-client</module>
         <module>kafka-streams-service</module>
-    </modules>
+		<module>analytics-service</module>
+	</modules>
 	<packaging>pom</packaging>
 
 	<repositories>
