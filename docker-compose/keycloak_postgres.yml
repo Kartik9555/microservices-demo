@@ -50,6 +50,7 @@ services:
       - "KC_DB_SCHEMA=public" # only public schema works?
       - "KC_DB_URL_DATABASE=keycloak" # database to use
       - "KC_DB_URL_HOST=postgres" # postgres service defined above
+      - "KC_HOSTNAME_STRICT=false"
     depends_on:
       - postgres
     networks:

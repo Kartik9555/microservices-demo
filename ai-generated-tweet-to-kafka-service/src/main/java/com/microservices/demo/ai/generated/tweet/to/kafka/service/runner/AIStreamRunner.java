@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
+import org.springframework.util.IdGenerator;
 
 @Slf4j
 @Component
@@ -22,12 +23,14 @@ public class AIStreamRunner implements Runnable {
     private final KafkaConfigData kafkaConfigData;
     private final KafkaProducer<Long, TwitterAvroModel> kafkaProducer;
     private final TwitterStatusToAvroTransformer twitterStatusToAvroTransformer;
+    private final IdGenerator idGenerator;
 
     @Override
     public void run() {
         final var generatedTweet = aiService.generateTweet();
         log.info("Generated Tweet: {}", generatedTweet);
-        final var twitterAvroModel = twitterStatusToAvroTransformer.getTwitterAvroModelFromStatus(generatedTweet);
+        final var id = idGenerator.generateId().getMostSignificantBits();
+        final var twitterAvroModel = twitterStatusToAvroTransformer.getTwitterAvroModelFromStatus(generatedTweet, id);
         kafkaProducer.send(kafkaConfigData.getTopicName(), twitterAvroModel.getUserId(), twitterAvroModel);
     }
 }

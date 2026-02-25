@@ -12,10 +12,10 @@ public class TwitterStatusToAvroTransformer {
 
     private final ObjectMapper objectMapper;
 
-    public TwitterAvroModel getTwitterAvroModelFromStatus(String status) {
+    public TwitterAvroModel getTwitterAvroModelFromStatus(String status, Long id) {
         final var tweet = objectMapper.readValue(status, Tweet.class);
         return TwitterAvroModel.newBuilder()
-                .setId(tweet.id())
+                .setId(id)
                 .setText(tweet.text())
                 .setCreatedAt(tweet.createdAt().getTime())
                 .setUserId(tweet.user().id())

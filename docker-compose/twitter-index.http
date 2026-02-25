@@ -1,0 +1,36 @@
+PUT /twitter-index HTTP/1.1
+Host: localhost:9200
+Content-Type: application/json
+
+{
+  "mappings": {
+    "properties": {
+      "userId": {
+        "type": "long"
+      },
+      "id": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "createdAt": {
+        "type": "date",
+        "format": "yyyy-MM-dd'T'HH:mm:ssZZ"
+      },
+      "text": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256,
+            "ignore_case": true
+          }
+        }
+      }
+    }
+  }
+}

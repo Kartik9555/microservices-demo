@@ -20,5 +20,5 @@ ALTER TABLE analytics.twitter_analytics OWNER to postgres;
 
 -- DROP INDEX analytics."INDX_WORD_BY_DATE";
 
-CREATE INDEX "INDX_WORD_BY_DATE" ON analytics.twitter_analytics USING btree (word COLLATE pg_catalog.default ASC NULLS LAST, record_date DESC NULLS LAST) TABLESPCAE pg_default;
+CREATE INDEX "INDX_WORD_BY_DATE" ON analytics.twitter_analytics USING btree (word COLLATE pg_catalog.default ASC NULLS LAST, record_date DESC NULLS LAST) TABLESPACE pg_default;
 

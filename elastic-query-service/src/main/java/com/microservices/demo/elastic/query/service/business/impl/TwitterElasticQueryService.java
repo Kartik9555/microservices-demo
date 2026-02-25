@@ -3,7 +3,6 @@ package com.microservices.demo.elastic.query.service.business.impl;
 import com.microservices.demo.config.ElasticQueryServiceConfigData;
 import com.microservices.demo.elastic.model.index.impl.TwitterIndexModel;
 import com.microservices.demo.elastic.query.client.service.ElasticQueryClient;
-import com.microservices.demo.elastic.query.service.QueryType;
 import com.microservices.demo.elastic.query.service.business.ElasticQueryService;
 import com.microservices.demo.elastic.query.service.common.exception.ElasticQueryServiceException;
 import com.microservices.demo.elastic.query.service.common.model.ElasticQueryServiceResponseModel;
@@ -22,6 +21,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static com.microservices.demo.elastic.query.service.QueryType.ANALYTICS_DATABASE;
+import static com.microservices.demo.elastic.query.service.QueryType.KAFKA_STATE_STORE;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Slf4j
@@ -63,10 +64,17 @@ public class TwitterElasticQueryService implements ElasticQueryService {
     }
 
     private Long getWordCount(String text, String accessToken) {
-        if(QueryType.KAFKA_STATE_STORE.getType().equals(elasticQueryServiceConfigData.getWebClient().getQueryType())) {
+        if(KAFKA_STATE_STORE.getType().equals(elasticQueryServiceConfigData.getWebClient().getQueryType())) {
             return getWordCoundFromKafkaStateStore(text, accessToken).getWordCount();
+        } else if(ANALYTICS_DATABASE.getType().equals(elasticQueryServiceConfigData.getWebClient().getQueryType())) {
+            return getWordCountFromAnalyticsDatabase(text, accessToken).getWordCount();
         }
         return 0L;
+    }
+
+    private ElasticQueryServiceWordCountResponseModel getWordCountFromAnalyticsDatabase(String text, String accessToken) {
+        final var queryFromAnalyticsDatabase = elasticQueryServiceConfigData.getQueryFromAnalyticsDatabase();
+        return retrieveResponseModel(text, accessToken, queryFromAnalyticsDatabase);
     }
 
     private ElasticQueryServiceWordCountResponseModel getWordCoundFromKafkaStateStore(String text, String accessToken) {
