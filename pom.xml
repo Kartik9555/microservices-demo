@@ -31,7 +31,8 @@
         <module>kafka-streams-service</module>
 		<module>analytics-service</module>
         <module>discovery-service</module>
-    </modules>
+		<module>gateway-service</module>
+	</modules>
 	<packaging>pom</packaging>
 
 	<repositories>
@@ -55,6 +56,7 @@
 		<kafka-avro-serializer.version>8.1.1</kafka-avro-serializer.version>
 		<elasticsearch.version>9.2.5</elasticsearch.version>
 		<springdoc-openapi.version>3.0.1</springdoc-openapi.version>
+		<spring-cloud-gateway.version>4.3.3</spring-cloud-gateway.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
