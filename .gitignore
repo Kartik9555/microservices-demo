@@ -40,3 +40,6 @@ build/
 /*/*/logs/archived/*.log
 /docker-compose/volumes/
 /docker-compose/postgres_data/
+.run/
+/docker-compose/prometheus/
+/docker-compose/grafana/
