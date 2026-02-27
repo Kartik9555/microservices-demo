@@ -29,24 +29,23 @@ public class GatewayConfig {
                 .getFirst(HEADER_FOR_KEY_RESOLVER)));
     }
 
+    @Bean
     Customizer<ReactiveResilience4JCircuitBreakerFactory> circuitBreakerFactoryCustomizer() {
-        return factory -> {
-            factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
-                    .timeLimiterConfig(TimeLimiterConfig.custom()
-                            .timeoutDuration(Duration.ofMillis(gatewayServiceConfigData.getTimeoutMs()))
-                            .build()
-                    )
-                    .circuitBreakerConfig(CircuitBreakerConfig.custom()
-                            .failureRateThreshold(gatewayServiceConfigData.getFailureRateThreshold())
-                            .slowCallRateThreshold(gatewayServiceConfigData.getSlowCallRateThreshold())
-                            .slowCallDurationThreshold(Duration.ofMillis(gatewayServiceConfigData.getSlowCallDurationThreshold()))
-                            .permittedNumberOfCallsInHalfOpenState(gatewayServiceConfigData.getPermittedNumOfCallsInHalfOpenState())
-                            .slidingWindowSize(gatewayServiceConfigData.getSlidingWindowSize())
-                            .minimumNumberOfCalls(gatewayServiceConfigData.getMinNumOfCalls())
-                            .waitDurationInOpenState(Duration.ofMillis(gatewayServiceConfigData.getWaitDurationInOpenState()))
-                            .build()
-                    )
-                    .build());
-        };
+        return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
+                .timeLimiterConfig(TimeLimiterConfig.custom()
+                        .timeoutDuration(Duration.ofMillis(gatewayServiceConfigData.getTimeoutMs()))
+                        .build()
+                )
+                .circuitBreakerConfig(CircuitBreakerConfig.custom()
+                        .failureRateThreshold(gatewayServiceConfigData.getFailureRateThreshold())
+                        .slowCallRateThreshold(gatewayServiceConfigData.getSlowCallRateThreshold())
+                        .slowCallDurationThreshold(Duration.ofMillis(gatewayServiceConfigData.getSlowCallDurationThreshold()))
+                        .permittedNumberOfCallsInHalfOpenState(gatewayServiceConfigData.getPermittedNumOfCallsInHalfOpenState())
+                        .slidingWindowSize(gatewayServiceConfigData.getSlidingWindowSize())
+                        .minimumNumberOfCalls(gatewayServiceConfigData.getMinNumOfCalls())
+                        .waitDurationInOpenState(Duration.ofMillis(gatewayServiceConfigData.getWaitDurationInOpenState()))
+                        .build()
+                )
+                .build());
     }
 }
