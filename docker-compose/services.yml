@@ -21,11 +21,12 @@ services:
       - "LOGGING_LEVEL_ROOT=info"
       - "KAFKA-CONFIG_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "KAFKA-CONFIG_SCHEMA-REGISTRY-URL=http://schema-registry:8081"
-      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888"
+      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888,http://config-server-ha:8089"
       - SPRING_AI_OPENAI_APIKEY=${OPENAI_API_KEY}
       - "KAFKA-CONFIG_TOPIC-NAME=twitter-topic"
       - "KAFKA-CONFIG_TOPIC-NAMES-TO-CREATE_0=twitter-topic"
       - "KAFKA-CONFIG_TOPIC-NAMES-TO-CREATE_1=twitter-analytics-topic"
+      - "LOG_APP-NAME=ai-generated-tweet-to-kafka-service"
     networks:
       - ${GLOBAL_NETWORK:-services}
   kafka-to-elastic-service:
@@ -52,9 +53,10 @@ services:
       - "LOGGING_LEVEL_ROOT=info"
       - "KAFKA-CONFIG_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "KAFKA-CONFIG_SCHEMA-REGISTRY-URL=http://schema-registry:8081"
-      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888"
+      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888,http://config-server-ha:8089"
       - "ELASTIC_CONFIG_INDEX-NAME=twitter-index"
       - "ELASTIC_CONFIG_CONNECTION-URL=http://elastic-1:9200"
+      - "LOG_APP-NAME=kafka-to-elastic-service"
     networks:
       - ${GLOBAL_NETWORK:-services}
   config-server:
@@ -67,6 +69,20 @@ services:
     environment:
       - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 -Xms128m -Xmx256m"
       - SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD=${GITHUB_PAT_TOKEN}
+      - "LOG_APP-NAME=config-server"
+    networks:
+      - ${GLOBAL_NETWORK:-services}
+  config-server-ha:
+    image: ${GROUP_ID}/config-server:${SERVICE_VERSION:-latest}
+    ports:
+      - "5018:5018"
+      - "8089:8089"
+    volumes:
+      - "./docker-logs:/workspace/config-server/logs"
+    environment:
+      - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5018 -Xms128m -Xmx256m"
+      - SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD=${GITHUB_PAT_TOKEN}
+      - "LOG_APP-NAME=config-server-ha"
     networks:
       - ${GLOBAL_NETWORK:-services}
   elastic-query-service-1:
@@ -90,7 +106,7 @@ services:
       - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5008 -Xms128m -Xmx256m"
       - "LOGGING_LEVEL_COM_MICROSERVICES_DEMO=info"
       - "LOGGING_LEVEL_ROOT=info"
-      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888"
+      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888,http://config-server-ha:8089"
       - "ELASTIC_CONFIG_INDEX-NAME=twitter-index"
       - "ELASTIC_CONFIG_CONNECTION-URL=http://elastic-1:9200"
       - "SERVER_PORT=8183"
@@ -102,6 +118,7 @@ services:
       - "ELASTIC-QUERY-SERVICE_QUERY-FROM-KAFKA-STATE-STORE_URI=http://gateway-service/kafka-streams-service/get-word-count-by-word/{word}"
       - "ELASTIC-QUERY-SERVICE_QUERY-FROM-ANALYTICS-DATABASE_URI=http://gateway-service/analytics-service/get-word-count-by-word/{word}"
       - "ELASTIC-QUERY-SERVICE_WEBCLIENT_QUERY-TYPE=ANALYTICS_DATABASE"
+      - "LOG_APP-NAME=elastic-query-service-1"
     networks:
       - ${GLOBAL_NETWORK:-services}
   elastic-query-service-2:
@@ -125,7 +142,7 @@ services:
       - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5009 -Xms128m -Xmx256m"
       - "LOGGING_LEVEL_COM_MICROSERVICES_DEMO=info"
       - "LOGGING_LEVEL_ROOT=info"
-      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888"
+      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888,http://config-server-ha:8089"
       - "ELASTIC_CONFIG_INDEX-NAME=twitter-index"
       - "ELASTIC_CONFIG_CONNECTION-URL=http://elastic-1:9200"
       - "SERVER_PORT=8185"
@@ -138,6 +155,7 @@ services:
       - "ELASTIC-QUERY-SERVICE_QUERY-FROM-KAFKA-STATE-STORE_URI=http://gateway-service/kafka-streams-service/get-word-count-by-word/{word}"
       - "ELASTIC-QUERY-SERVICE_QUERY-FROM-ANALYTICS-DATABASE_URI=http://gateway-service/analytics-service/get-word-count-by-word/{word}"
       - "ELASTIC-QUERY-SERVICE_WEBCLIENT_QUERY-TYPE=ANALYTICS_DATABASE"
+      - "LOG_APP-NAME=elastic-query-service-2"
     networks:
       - ${GLOBAL_NETWORK:-services}
   elastic-query-web-client:
@@ -159,7 +177,7 @@ services:
       - "LOGGING_LEVEL_ROOT=info"
       - "SERVER_PORT=8184"
       - "SERVER_SERVLET_CONTEXT-PATH=/"
-      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888"
+      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888,http://config-server-ha:8089"
       - "ELASTIC_QUERY_WEB_CLIENT_WEB-CLIENT_BASE-URL=http://gateway-service/elastic-query-service/documents"
       - "ELASTIC_QUERY_WEB_CLIENT_WEB-CLIENT_INSTANCES_0_ID=elastic-query-service-1"
       - "ELASTIC_QUERY_WEB_CLIENT_WEB-CLIENT_INSTANCES_0_HOST=elastic-query-service-1"
@@ -170,6 +188,7 @@ services:
       - "SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER-URI=http://keycloak-authorization-server:9091/realms/microservices-realm"
       - "SECURITY_LOGOUT-SUCCESS-URL=http://elastic-query-web-client:8184/elastic-query-web-client"
       - "SECURITY_DEFAULT-CLIENT-REGISTRATION-ID=keycloak"
+      - "LOG_APP-NAME=elastic-query-web-client"
     networks:
       - ${GLOBAL_NETWORK:-services}
   kafka-streams-service:
@@ -191,11 +210,12 @@ services:
       - "LOGGING_LEVEL_ROOT=error"
       - "SERVER_PORT=8187"
       - "SERVER_SERVLET_CONTEXT-PATH=/"
-      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888"
+      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888,http://config-server-ha:8089"
       - "SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI=http://keycloak-authorization-server:9091/realms/microservices-realm"
       - "SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI=http://keycloak-authorization-server:9091/realms/microservices-realm/protocol/openid-connect/certs"
       - "KAFKA-CONFIG_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "KAFKA-CONFIG_SCHEMA-REGISTRY-URL=http://schema-registry:8081"
+      - "LOG_APP-NAME=kafka-streams-service"
     networks:
       - ${GLOBAL_NETWORK:-services}
   analytics-service:
@@ -217,13 +237,14 @@ services:
       - "LOGGING_LEVEL_ROOT=info"
       - "SERVER_PORT=8188"
       - "SERVER_SERVLET_CONTEXT-PATH=/"
-      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888"
+      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888,http://config-server-ha:8089"
       - "SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI=http://keycloak-authorization-server:9091/realms/microservices-realm"
       - "SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI=http://keycloak-authorization-server:9091/realms/microservices-realm/protocol/openid-connect/certs"
       - "SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/postgres?currentSchema=analytics&binaryTransfer=true&reWriteBatchedInserts=true"
       - "KAFKA-CONFIG_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "KAFKA-CONFIG_SCHEMA-REGISTRY-URL=http://schema-registry:8081"
       - "SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
+      - "LOG_APP-NAME=analytics-service"
     networks:
       - ${GLOBAL_NETWORK:-services}
   discovery-service-1:
@@ -239,6 +260,7 @@ services:
       - "SERVER_PORT=8761"
       - "SPRING_PROFILES_ACTIVE=peer1"
       - "EUREKA_INSTANCE_HOSTNAME=discovery-service-1"
+      - "LOG_APP-NAME=discovery-service-1"
     networks:
       - ${GLOBAL_NETWORK:-services}
   discovery-service-2:
@@ -254,9 +276,10 @@ services:
       - "SERVER_PORT=8762"
       - "SPRING_PROFILES_ACTIVE=peer2"
       - "EUREKA_INSTANCE_HOSTNAME=discovery-service-2"
+      - "LOG_APP-NAME=discovery-service-2"
     networks:
       - ${GLOBAL_NETWORK:-services}
-  gateway-service:
+  gateway-service-1:
     image: ${GROUP_ID}/gateway-service:${SERVICE_VERSION:-latest}
     ports:
       - "5016:5016"
@@ -273,8 +296,32 @@ services:
       - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5016 -Xms128m -Xmx256m"
       - "LOGGING_LEVEL_ROOT=debug"
       - "SERVER_PORT=9093"
-      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888"
+      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888,http://config-server-ha:8089"
       - "SPRING_REDIS_HOST=redis"
       - "EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE=http://discovery-service-1:8761/eureka/,http://discovery-service-2:8762/eureka/"
+      - "LOG_APP-NAME=gateway-service-1"
+    networks:
+      - ${GLOBAL_NETWORK:-services}
+  gateway-service-2:
+    image: ${GROUP_ID}/gateway-service:${SERVICE_VERSION:-latest}
+    ports:
+      - "5017:5017"
+      - "9094:9094"
+    volumes:
+      - "./docker-logs:/workspace/gateway-service/logs"
+      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
+      - "./check-keycloak-server-started.sh:/usr/local/bin/check-keycloak-server-started.sh"
+    user: root
+    entrypoint: [ "check-config-server-started.sh" ]
+    links:
+      - "redis-master:redis"
+    environment:
+      - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5017 -Xms128m -Xmx256m"
+      - "LOGGING_LEVEL_ROOT=debug"
+      - "SERVER_PORT=9094"
+      - "SPRING_CLOUD_CONFIG_URI=http://config-server:8888,http://config-server-ha:8089"
+      - "SPRING_REDIS_HOST=redis"
+      - "EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE=http://discovery-service-1:8761/eureka/,http://discovery-service-2:8762/eureka/"
+      - "LOG_APP-NAME=gateway-service-2"
     networks:
       - ${GLOBAL_NETWORK:-services}

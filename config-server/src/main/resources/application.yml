@@ -23,3 +23,6 @@ spring:
     user:
       name: '794cfeb890394d2bc8a53d547fafaa50860c96d9c9694d098b42dc76af9675a4e5c783a2fd6028244694a6b6e5171e8c'
       password: '1bf123fd7ea68795a2ec9f9a648af05a6200bade8066c8cd5b067046ed066a9374081fda27cf5f9a34dbe8bf35d1fe4e'
+
+log:
+  app-name: configserver
