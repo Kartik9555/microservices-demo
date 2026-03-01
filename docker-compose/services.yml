@@ -30,6 +30,7 @@ services:
       - "SPRING_ZIPKIN_SENDER_TYPE=kafka"
       - "SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "SPRING_SLEUTH_SAMPLER_PROBABILITY=1.0"
+      - "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411"
     networks:
       - ${GLOBAL_NETWORK:-services}
   kafka-to-elastic-service:
@@ -63,6 +64,8 @@ services:
       - "SPRING_ZIPKIN_SENDER_TYPE=kafka"
       - "SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "SPRING_SLEUTH_SAMPLER_PROBABILITY=1.0"
+      - "SPRING_DATA_ELASTICSEARCH_CLIENT_REACTIVE_ENDPOINTS=elastic-1:9200"
+      - "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411"
     networks:
       - ${GLOBAL_NETWORK:-services}
   config-server:
@@ -76,6 +79,7 @@ services:
       - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 -Xms128m -Xmx256m"
       - SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD=${GITHUB_PAT_TOKEN}
       - "LOG_APP-NAME=config-server"
+      - "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411"
     networks:
       - ${GLOBAL_NETWORK:-services}
   config-server-ha:
@@ -89,6 +93,7 @@ services:
       - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5018 -Xms128m -Xmx256m"
       - SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD=${GITHUB_PAT_TOKEN}
       - "LOG_APP-NAME=config-server-ha"
+      - "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411"
     networks:
       - ${GLOBAL_NETWORK:-services}
   elastic-query-service-1:
@@ -128,6 +133,8 @@ services:
       - "SPRING_ZIPKIN_SENDER_TYPE=kafka"
       - "SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "SPRING_SLEUTH_SAMPLER_PROBABILITY=1.0"
+      - "SPRING_DATA_ELASTICSEARCH_CLIENT_REACTIVE_ENDPOINTS=elastic-1:9200"
+      - "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411"
     networks:
       - ${GLOBAL_NETWORK:-services}
   elastic-query-service-2:
@@ -168,6 +175,8 @@ services:
       - "SPRING_ZIPKIN_SENDER_TYPE=kafka"
       - "SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "SPRING_SLEUTH_SAMPLER_PROBABILITY=1.0"
+      - "SPRING_DATA_ELASTICSEARCH_CLIENT_REACTIVE_ENDPOINTS=elastic-1:9200"
+      - "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411"
     networks:
       - ${GLOBAL_NETWORK:-services}
   elastic-query-web-client:
@@ -204,6 +213,7 @@ services:
       - "SPRING_ZIPKIN_SENDER_TYPE=kafka"
       - "SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "SPRING_SLEUTH_SAMPLER_PROBABILITY=1.0"
+      - "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411"
     networks:
       - ${GLOBAL_NETWORK:-services}
   kafka-streams-service:
@@ -234,6 +244,7 @@ services:
       - "SPRING_ZIPKIN_SENDER_TYPE=kafka"
       - "SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "SPRING_SLEUTH_SAMPLER_PROBABILITY=1.0"
+      - "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411"
     networks:
       - ${GLOBAL_NETWORK:-services}
   analytics-service:
@@ -265,6 +276,7 @@ services:
       - "SPRING_ZIPKIN_SENDER_TYPE=kafka"
       - "SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "SPRING_SLEUTH_SAMPLER_PROBABILITY=1.0"
+      - "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411"
     networks:
       - ${GLOBAL_NETWORK:-services}
   discovery-service-1:
@@ -297,6 +309,7 @@ services:
       - "SPRING_PROFILES_ACTIVE=peer2"
       - "EUREKA_INSTANCE_HOSTNAME=discovery-service-2"
       - "LOG_APP-NAME=discovery-service-2"
+      - "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411"
     networks:
       - ${GLOBAL_NETWORK:-services}
   gateway-service-1:
@@ -323,6 +336,7 @@ services:
       - "SPRING_ZIPKIN_SENDER_TYPE=kafka"
       - "SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "SPRING_SLEUTH_SAMPLER_PROBABILITY=1.0"
+      - "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411"
     networks:
       - ${GLOBAL_NETWORK:-services}
   gateway-service-2:
@@ -349,5 +363,6 @@ services:
       - "SPRING_ZIPKIN_SENDER_TYPE=kafka"
       - "SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka-broker-1:9092, kafka-broker-2:9092, kafka-broker-3:9092"
       - "SPRING_SLEUTH_SAMPLER_PROBABILITY=1.0"
+      - "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://zipkin:9411"
     networks:
       - ${GLOBAL_NETWORK:-services}
