@@ -121,7 +121,7 @@ services:
       - "ELASTIC_CONFIG_INDEX-NAME=twitter-index"
       - "ELASTIC_CONFIG_CONNECTION-URL=http://elastic-1:9200"
       - "SERVER_PORT=8183"
-      - "SERVER_SERVLET_CONTEXT-PATH=/elastic-query-service"
+      - "SERVER_SERVLET_CONTEXT-PATH=/"
       - "SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI=http://keycloak-authorization-server:9091/realms/microservices-realm"
       - "SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI=http://keycloak-authorization-server:9091/realms/microservices-realm/protocol/openid-connect/certs"
       - "SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI=http://keycloak-authorization-server:9091/realms/microservices-realm/protocol/openid-connect/token"

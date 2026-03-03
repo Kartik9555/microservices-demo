@@ -29,7 +29,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>${project.groupId}/discovery-server:${project.version}</name>
+                        <name>${project.groupId}/discovery-service:${project.version}</name>
                     </image>
                 </configuration>
                 <executions>
